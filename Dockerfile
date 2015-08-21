@@ -33,7 +33,6 @@ ENV PATH /app/local/ruby/node-0.12.7/bin:$PATH
 # Install Bundler
 RUN gem install bundler -v 1.9.10 --no-ri --no-rdoc
 ENV PATH /app/user/bin:/app/local/ruby/bundle/ruby/2.2.0/bin:$PATH
-ENV BUNDLE_APP_CONFIG /app/local/ruby/.bundle/config
 
 # Run bundler to cache dependencies
 ONBUILD COPY ["Gemfile", "Gemfile.lock", "/app/user/"]
@@ -43,7 +42,7 @@ ONBUILD ADD . /app/user
 # How to conditionally `rake assets:precompile`?
 ONBUILD ENV RAILS_ENV production
 ONBUILD ENV SECRET_KEY_BASE $(openssl rand -base64 32)
-ONBUILD RUN bundle exec rake assets:precompile
+# ONBUILD RUN bundle exec rake assets:precompile
 
 # export env vars during run time
 RUN mkdir -p /app/.profile.d/
